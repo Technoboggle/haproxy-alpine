@@ -1,3 +1,14 @@
+# The following commands to build image and upload to dockerhub
+```
+docker build -f Dockerfile -t technoboggle/haproxy-alpine:2.4-3.13.2 .
+docker run -it -d -p 8000:80 --rm --name myhaproxy technoboggle/haproxy-alpine:2.4-3.13.2
+docker tag technoboggle/haproxy-alpine:2.4-3.13.2 technoboggle/haproxy-alpine:latest
+docker login
+docker push technoboggle/haproxy-alpine:2.4-3.13.2
+docker push technoboggle/haproxy-alpine:latest
+docker container stop -t 10 myhaproxy
+
+
 # Supported tags and respective `Dockerfile` links
 
 - [`2.4-dev4`, `2.4`](https://github.com/haproxytech/haproxy-docker-alpine/blob/master/2.4/Dockerfile)
