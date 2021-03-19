@@ -57,11 +57,11 @@ RUN apk --no-cache upgrade musl &&\
     apk add --no-cache openssl zlib lua5.3-libs pcre2 && \
     rm -f /var/cache/apk/*
 
-COPY haproxy.cfg /usr/local/etc/haproxy
-COPY docker-entrypoint.sh /
-RUN chmod 0755 /docker-entrypoint.sh
+#COPY haproxy.cfg /usr/local/etc/haproxy
+#COPY docker-entrypoint.sh /
+#RUN chmod 0755 /docker-entrypoint.sh
 
 STOPSIGNAL SIGUSR1
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
+#ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["haproxy", "-f", "/usr/local/etc/haproxy/haproxy.cfg"]

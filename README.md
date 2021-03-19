@@ -1,6 +1,11 @@
 # The following commands to build image and upload to dockerhub
 ```
 
+
+#####################################################################
+# use the following commands to build image and upload to dockerhub #
+```
+#####################################################################
 # Setting File permissions
 xattr -c .git
 xattr -c .gitignore
@@ -10,14 +15,16 @@ chmod 0666 *
 chmod 0777 *.sh
 
 
-docker build -f Dockerfile -t technoboggle/haproxy-alpine:2.4-3.13.2 .
-docker run -it -d -p 8000:80 --rm --name myhaproxy technoboggle/haproxy-alpine:2.4-3.13.2
+# for more build detail add the following argument:  --progress=plain
+docker build --progress=plain -f Dockerfile -t technoboggle/haproxy-alpine:2.4-3.13.2 . 
+docker run -it -d -p 8000:80 -p 4430:443 --rm --name haproxy technoboggle/haproxy-alpine:2.4-3.13.2
 docker tag technoboggle/haproxy-alpine:2.4-3.13.2 technoboggle/haproxy-alpine:latest
 docker login
 docker push technoboggle/haproxy-alpine:2.4-3.13.2
 docker push technoboggle/haproxy-alpine:latest
-docker container stop -t 10 myhaproxy
-
+docker container stop -t 10 haproxy
+#####################################################################
+```
 
 # Supported tags and respective `Dockerfile` links
 
