@@ -1,20 +1,20 @@
-FROM alpine:3.13.2 AS builder
+FROM alpine:3.13.5 AS builder
 
 MAINTAINER Edward Finlayson <edward.finlayson@btinternet.com>
 
 LABEL Name HAProxy
 LABEL Release Community Edition
 LABEL Vendor HAProxy
-LABEL Version 2.4-dev4
+LABEL Version 2.4-dev18
 LABEL RUN /usr/bin/docker -d IMAGE
 
 ENV HAPROXY_BRANCH 2.4
-ENV HAPROXY_MINOR 2.4-dev4
-ENV HAPROXY_SHA256 be583c7058e0dff02b59ce575e5492b4b6b48d8fd176370312fcada807479c0f
+ENV HAPROXY_MINOR 2.4-dev18
+ENV HAPROXY_SHA256 fab8b85664afc74c481c91a8f104b6bf87b265f9b5f03054dc926364e9801e74
 ENV HAPROXY_SRC_URL http://www.haproxy.org/download
 
-ENV DATAPLANE_MINOR 2.1.0
-ENV DATAPLANE_SHA256 15624a2e41f326b65ca977b1b6b840b14a265a8347f4a77775cf5d9a29b9fd06
+ENV DATAPLANE_MINOR 2.2.1
+ENV DATAPLANE_SHA256 0017cd9ce316ea4b4a27cbd87f6edb842cfd55144fd6f159cebdb2d4f501a72f
 ENV DATAPLANE_URL https://github.com/haproxytech/dataplaneapi/releases/download
 
 ENV HAPROXY_UID haproxy
