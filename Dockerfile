@@ -1,4 +1,4 @@
-FROM alpine:3.13.5 AS builder
+FROM alpine:3.13.5
 
 MAINTAINER Edward Finlayson <edward.finlayson@btinternet.com>
 
@@ -17,14 +17,19 @@ ENV DATAPLANE_MINOR 2.2.1
 ENV DATAPLANE_SHA256 0017cd9ce316ea4b4a27cbd87f6edb842cfd55144fd6f159cebdb2d4f501a72f
 ENV DATAPLANE_URL https://github.com/haproxytech/dataplaneapi/releases/download
 
+ENV LIBSLZ_VERSION 1.2.0
+
 ENV HAPROXY_UID haproxy
 ENV HAPROXY_GID haproxy
 
-RUN apk update --no-cache && \
-    apk --no-cache add --upgrade musl prometheus &&\
-    apk add --no-cache --virtual build-deps ca-certificates gcc libc-dev \
+RUN apk add --no-cache --virtual build-deps ca-certificates gcc libc-dev \
     linux-headers lua5.3-dev make openssl openssl-dev pcre2-dev tar \
     zlib-dev curl shadow ca-certificates && \
+    curl -sfSL "http://git.1wt.eu/web?p=libslz.git;a=snapshot;h=v${LIBSLZ_VERSION};sf=tgz" -o libslz.tar.gz && \
+    mkdir -p /tmp/libslz && \
+    tar -xzf libslz.tar.gz -C /tmp/libslz --strip-components=1 && \
+    make -C /tmp/libslz static && \
+    rm -f libslz.tar.gz && \
     curl -sfSL "${HAPROXY_SRC_URL}/${HAPROXY_BRANCH}/src/devel/haproxy-${HAPROXY_MINOR}.tar.gz" -o haproxy.tar.gz && \
     echo "$HAPROXY_SHA256 *haproxy.tar.gz" | sha256sum -c - && \
     groupadd "$HAPROXY_GID" && \
@@ -33,9 +38,9 @@ RUN apk update --no-cache && \
     tar -xzf haproxy.tar.gz -C /tmp/haproxy --strip-components=1 && \
     rm -f haproxy.tar.gz && \
     make -C /tmp/haproxy -j"$(nproc)" TARGET=linux-musl CPU=generic USE_PCRE2=1 USE_PCRE2_JIT=1 USE_REGPARM=1 USE_OPENSSL=1 \
-                            USE_ZLIB=1 USE_TFO=1 USE_LINUX_TPROXY=1 USE_GETADDRINFO=1 \
+                            USE_TFO=1 USE_LINUX_TPROXY=1 USE_GETADDRINFO=1 \
                             USE_LUA=1 LUA_LIB=/usr/lib/lua5.3 LUA_INC=/usr/include/lua5.3 \
-                            EXTRA_OBJS="contrib/prometheus-exporter/service-prometheus.o" \
+                            USE_PROMEX=1 USE_SLZ=1 SLZ_INC=/tmp/libslz/src SLZ_LIB=/tmp/libslz \
                             all && \
     make -C /tmp/haproxy TARGET=linux2628 install-bin install-man && \
     ln -s /usr/local/sbin/haproxy /usr/sbin/haproxy && \
@@ -44,6 +49,7 @@ RUN apk update --no-cache && \
     mkdir -p /usr/local/etc/haproxy && \
     ln -s /usr/local/etc/haproxy /etc/haproxy && \
     cp -R /tmp/haproxy/examples/errorfiles /usr/local/etc/haproxy/errors && \
+    rm -rf /tmp/libslz && \
     rm -rf /tmp/haproxy && \
     curl -sfSL "${DATAPLANE_URL}/v${DATAPLANE_MINOR}/dataplaneapi_${DATAPLANE_MINOR}_Linux_x86_64.tar.gz" -o dataplane.tar.gz && \
     echo "$DATAPLANE_SHA256 *dataplane.tar.gz" | sha256sum -c - && \
@@ -58,11 +64,10 @@ RUN apk update --no-cache && \
     apk add --no-cache openssl zlib lua5.3-libs pcre2 && \
     rm -f /var/cache/apk/*
 
-#COPY haproxy.cfg /usr/local/etc/haproxy
-#COPY docker-entrypoint.sh /
-#RUN chmod 0755 /docker-entrypoint.sh
+COPY haproxy.cfg /usr/local/etc/haproxy
+COPY docker-entrypoint.sh /
 
 STOPSIGNAL SIGUSR1
 
-#ENTRYPOINT ["/docker-entrypoint.sh"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["haproxy", "-f", "/usr/local/etc/haproxy/haproxy.cfg"]
