@@ -20,7 +20,8 @@ ENV DATAPLANE_URL https://github.com/haproxytech/dataplaneapi/releases/download
 ENV HAPROXY_UID haproxy
 ENV HAPROXY_GID haproxy
 
-RUN apk --no-cache upgrade musl &&\
+RUN apk update --no-cache && \
+    apk --no-cache add --upgrade musl prometheus &&\
     apk add --no-cache --virtual build-deps ca-certificates gcc libc-dev \
     linux-headers lua5.3-dev make openssl openssl-dev pcre2-dev tar \
     zlib-dev curl shadow ca-certificates && \
