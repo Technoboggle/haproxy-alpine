@@ -1,20 +1,27 @@
-FROM alpine:3.13.5
-
-MAINTAINER Edward Finlayson <edward.finlayson@btinternet.com>
+FROM alpine:3.14.2
+LABEL net.technoboggle.authorname="Edward Finlayson" \
+      net.technoboggle.authors="edward.finlayson@btinternet.com" \
+      net.technoboggle.version="0.1" \
+      net.technoboggle.description="This image builds a HAProxy server" \
+      net.technoboggle.alpine_version="3.14.2" \
+      net.technoboggle.dataplane_version="2.2.1" \
+      net.technoboggle.haproxy_version="2.4-dev18" \
+      net.technoboggle.libslz_version="1.2.0" \
+      net.technoboggle.buildDate=$buildDate
 
 LABEL Name HAProxy
 LABEL Release Community Edition
 LABEL Vendor HAProxy
-LABEL Version 2.4-dev18
+LABEL Version 2.5-dev10
 LABEL RUN /usr/bin/docker -d IMAGE
 
-ENV HAPROXY_BRANCH 2.4
-ENV HAPROXY_MINOR 2.4-dev18
-ENV HAPROXY_SHA256 fab8b85664afc74c481c91a8f104b6bf87b265f9b5f03054dc926364e9801e74
+ENV HAPROXY_BRANCH 2.5
+ENV HAPROXY_MINOR 2.5-dev10
+ENV HAPROXY_SHA256 c0f04264e6d784b0e8c19a4051f6f5e6f2ed65ac3b84705d40465f122f6eaf20
 ENV HAPROXY_SRC_URL http://www.haproxy.org/download
 
-ENV DATAPLANE_MINOR 2.2.1
-ENV DATAPLANE_SHA256 0017cd9ce316ea4b4a27cbd87f6edb842cfd55144fd6f159cebdb2d4f501a72f
+ENV DATAPLANE_MINOR 2.4.0
+ENV DATAPLANE_SHA256 50e889101d3959b6e092a9d86acaaf1ca0fa4a60390dc55348834e07e128b426
 ENV DATAPLANE_URL https://github.com/haproxytech/dataplaneapi/releases/download
 
 ENV LIBSLZ_VERSION 1.2.0
@@ -22,7 +29,7 @@ ENV LIBSLZ_VERSION 1.2.0
 ENV HAPROXY_UID haproxy
 ENV HAPROXY_GID haproxy
 
-RUN apk add --no-cache --virtual build-deps ca-certificates gcc libc-dev \
+RUN apk add --no-cache --virtual .build-deps ca-certificates gcc libc-dev \
     linux-headers lua5.3-dev make openssl openssl-dev pcre2-dev tar \
     zlib-dev curl shadow ca-certificates && \
     curl -sfSL "http://git.1wt.eu/web?p=libslz.git;a=snapshot;h=v${LIBSLZ_VERSION};sf=tgz" -o libslz.tar.gz && \
@@ -60,7 +67,7 @@ RUN apk add --no-cache --virtual build-deps ca-certificates gcc libc-dev \
     chmod +x /usr/local/bin/dataplaneapi && \
     ln -s /usr/local/bin/dataplaneapi /usr/bin/dataplaneapi && \
     rm -rf /tmp/dataplane && \
-    apk del build-deps && \
+    apk del .build-deps && \
     apk add --no-cache openssl zlib lua5.3-libs pcre2 && \
     rm -f /var/cache/apk/*
 

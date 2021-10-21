@@ -16,11 +16,12 @@ chmod 0777 *.sh
 
 
 # for more build detail add the following argument:  --progress=plain
-docker build --progress=plain -f Dockerfile -t technoboggle/haproxy-alpine:2.4-3.13.2 . 
-docker run -it -d -p 8000:80 -p 4430:443 --rm --name haproxy technoboggle/haproxy-alpine:2.4-3.13.2
-docker tag technoboggle/haproxy-alpine:2.4-3.13.2 technoboggle/haproxy-alpine:latest
+
+docker build --progress=plain -f Dockerfile -t technoboggle/haproxy-alpine:2.5-3.14.2 --build-arg buildDate=$(date +'%Y-%m-%d') --no-cache --progress=plain . 
+docker run -it -d -p 8010:80 -p 4430:443 --rm --name haproxy technoboggle/haproxy-alpine:2.5-3.14.2
+docker tag technoboggle/haproxy-alpine:2.5-3.14.2 technoboggle/haproxy-alpine:latest
 docker login
-docker push technoboggle/haproxy-alpine:2.4-3.13.2
+docker push technoboggle/haproxy-alpine:2.5-3.14.2
 docker push technoboggle/haproxy-alpine:latest
 docker container stop -t 10 haproxy
 #####################################################################
