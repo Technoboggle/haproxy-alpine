@@ -4,8 +4,8 @@ LABEL net.technoboggle.authorname="Edward Finlayson" \
       net.technoboggle.version="0.1" \
       net.technoboggle.description="This image builds a HAProxy server" \
       net.technoboggle.alpine_version="3.14.2" \
-      net.technoboggle.dataplane_version="2.2.1" \
-      net.technoboggle.haproxy_version="2.4-dev18" \
+      net.technoboggle.dataplane_version="2.4.0" \
+      net.technoboggle.haproxy_version="2.5-dev10" \
       net.technoboggle.libslz_version="1.2.0" \
       net.technoboggle.buildDate=$buildDate
 
