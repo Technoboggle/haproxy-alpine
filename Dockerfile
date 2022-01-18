@@ -4,8 +4,8 @@ LABEL net.technoboggle.authorname="Edward Finlayson" \
       net.technoboggle.version="0.1" \
       net.technoboggle.description="This image builds a HAProxy server" \
       net.technoboggle.alpine_version="3.15.0" \
-      net.technoboggle.dataplane_version="2.4.0" \
-      net.technoboggle.haproxy_version="2.5-dev10" \
+      net.technoboggle.dataplane_version="2.4.4" \
+      net.technoboggle.haproxy_version="2.6-dev0" \
       net.technoboggle.libslz_version="1.2.0" \
       net.technoboggle.buildDate=$buildDate
 
@@ -20,8 +20,8 @@ ENV HAPROXY_MINOR 2.6-dev0
 ENV HAPROXY_SHA256 b05c04938f069ed39aaf00ba5bff9aa02d0f963c64e7b350a3cad04011ef4d93
 ENV HAPROXY_SRC_URL http://www.haproxy.org/download
 
-ENV DATAPLANE_MINOR 2.4.3
-ENV DATAPLANE_SHA256 8346fef788154d5ccee086924ee107dfb7b8a6f38b3c737ae4f4d9a6c2adf3e1
+ENV DATAPLANE_MINOR 2.4.4
+ENV DATAPLANE_SHA256 9fe55a15c419c05f3c7e2d99c0619efb52097ca512c5f945e4425304e712f6ca
 ENV DATAPLANE_URL https://github.com/haproxytech/dataplaneapi/releases/download
 
 ENV LIBSLZ_VERSION 1.2.0
