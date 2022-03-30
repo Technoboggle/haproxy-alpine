@@ -1,23 +1,23 @@
-FROM alpine:3.15.0
+FROM alpine:3.15.3
 LABEL net.technoboggle.authorname="Edward Finlayson" \
       net.technoboggle.authors="edward.finlayson@btinternet.com" \
       net.technoboggle.version="0.1" \
       net.technoboggle.description="This image builds a HAProxy server" \
-      net.technoboggle.alpine_version="3.15.0" \
+      net.technoboggle.alpine_version="3.15.3" \
       net.technoboggle.dataplane_version="2.4.4" \
-      net.technoboggle.haproxy_version="2.6-dev0" \
+      net.technoboggle.haproxy_version="2.6-dev4" \
       net.technoboggle.libslz_version="1.2.0" \
       net.technoboggle.buildDate=$buildDate
 
 LABEL Name HAProxy
 LABEL Release Community Edition
 LABEL Vendor HAProxy
-LABEL Version 2.6-dev0
+LABEL Version 2.6-dev4
 LABEL RUN /usr/bin/docker -d IMAGE
 
 ENV HAPROXY_BRANCH 2.6
-ENV HAPROXY_MINOR 2.6-dev0
-ENV HAPROXY_SHA256 b05c04938f069ed39aaf00ba5bff9aa02d0f963c64e7b350a3cad04011ef4d93
+ENV HAPROXY_MINOR 2.6-dev4
+ENV HAPROXY_SHA256 a7d5f2c5f20974a26de9b9dc0ab5c623c8a254179280e1647a41e1d1a1f078e9
 ENV HAPROXY_SRC_URL http://www.haproxy.org/download
 
 ENV DATAPLANE_MINOR 2.4.4
