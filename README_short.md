@@ -118,3 +118,15 @@ $ docker run -d --name my-running-haproxy --expose 5555 -v /path/to/etc/haproxy:
 View [license information](https://raw.githubusercontent.com/haproxy/haproxy/master/LICENSE) for the software contained in this image.
 
 As with all Docker images, these likely also contain other software which may be under other licenses (such as Bash, etc from the base distribution, along with any direct or indirect dependencies of the primary software being contained).
+
+
+
+
+docker tag technoboggle/haproxy-alpine:2.6-3.15.3 technoboggle/haproxy-alpine:latest
+docker login
+docker push technoboggle/haproxy-alpine:2.6-3.15.3
+docker push technoboggle/haproxy-alpine:latest
+
+
+
+
