@@ -1,4 +1,4 @@
-FROM alpine:3.15.3
+FROM alpine:latest
 LABEL net.technoboggle.authorname="Edward Finlayson" \
       net.technoboggle.authors="edward.finlayson@btinternet.com" \
       net.technoboggle.version="0.1" \
