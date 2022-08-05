@@ -1,0 +1,84 @@
+/*
+
+GET - /conversations/:user_id
+- List of conversations for a particular user. Results should be sorted by last_message_time in descending order by default. It should also be possible to order by with_user_name by passing the query parameter ord=name and message_count by passing the query
+ parameter ord=message_count 
+
+*/
+
+select 
+  concat('{"conversations:"',
+  JSON_ARRAYAGG(
+  JSON_OBJECT(
+  "with_user_id", res.u_IDs,
+  "with_user_name", res.u_Usernames,
+  "message_count", res.cnt,
+  "last_message_time", res.writ
+  )),'}') as chat
+from
+  (   select 
+      usr.u_IDs as u_IDs,
+      usr.u_Usernames as u_Usernames,
+      count(1) as cnt,
+      lst.writ as writ
+    from messages as m
+    join (select distinct m_c_ID from messages where m_u_ID=2 ) as s on m.m_c_ID = s.m_c_ID
+    join (select m_c_ID, max(m_arrived) as writ from messages group by m_c_ID) as lst on lst.m_c_ID=m.m_c_ID 
+    join (
+      select 
+      group_concat(distinct m_u_ID) as u_IDs,
+      group_concat(distinct u.u_Username) as u_Usernames,
+      m_c_ID as c_ID
+      from messages as m
+      left join users as u on u.u_ID = m.m_u_ID 
+      where m_u_ID<>2 group by m_c_ID
+    ) as usr on usr.c_ID=m.m_c_ID 
+    group by m.m_c_ID
+--    order by u_Usernames asc /* This orderby element will order the results by any of the four field in asceending or descnding order */
+  ) as res
+;
+
+
+
+
+GET - /conversations/:user_id/conversation/:with_user_id
+- List a conversation thread between two users. Results should be sorted by message_time in descending order. It should be possible to do a wildcard search on message text by passing search=:search_text query parameter. 
+
+SELECT 
+  concat('{"messages:',
+      JSON_ARRAYAGG(
+        JSON_OBJECT(
+          response.m_c_ID,msgs
+        )
+      ),
+      '}'
+      ) as retval
+from
+  (select
+    JSON_ARRAYAGG(
+    JSON_OBJECT(
+      "from_user_id", res.m_u_ID,
+      "message_time", res.m_arrived,
+      "message", res.verbatim
+    )) as msgs,
+    res.m_c_ID
+  from (
+    select
+      m.m_ID,
+      m.m_u_ID,
+      m.m_c_ID,
+      m.m_arrived,
+      /* Use the following ONLY if no search term */
+      m.m_Verbatim as verbatim
+      /* Use the following ONLY if there IS a search term */
+      -- if(m.m_Verbatim like('%Chris%'), concat('*** ', m.m_Verbatim , ' ***'), m.m_Verbatim) as verbatim
+    from messages as m
+    /* Use the following ONLY if no search term */
+    join (select distinct m_c_ID from messages where m_u_ID=2) as s on m.m_c_ID = s.m_c_ID
+    /* Use the following ONLY if there IS a search term */
+    -- join (select distinct m_c_ID from messages as msg where msg.m_Verbatim like('%Chris%')) as s on m.m_c_ID = s.m_c_ID
+    order by m.m_c_ID asc, m.m_arrived desc /* This order by element will order the results by any of the four field in asceending or descnding order */
+  ) as res
+  group by res.m_c_ID
+) as response
+;
