@@ -15,7 +15,7 @@ chmod 0666 *
 chmod 0777 *.sh
 
 #docker network create haproxy
-docker build -f Dockerfile --progress=plain -t technoboggle/haproxy-alpine:"$haproxy_ver-$alpine_ver" --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') --build-arg VCS_REF="`git rev-parse --verify HEAD`" --build-arg BUILD_VERSION=0.05 --no-cache .
+docker build -f Dockerfile -t technoboggle/haproxy-alpine:"$haproxy_ver-$alpine_ver" --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') --build-arg VCS_REF="`git rev-parse --verify HEAD`" --build-arg BUILD_VERSION=0.05 --no-cache .
 #--progress=plain 
 
 docker run -it -d --rm -p 8010:80 -p 4430:443 --name myhaproxy technoboggle/haproxy-alpine:"$haproxy_ver-$alpine_ver"
