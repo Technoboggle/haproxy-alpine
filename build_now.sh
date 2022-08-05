@@ -20,10 +20,10 @@ docker build -f Dockerfile --progress=plain -t technoboggle/haproxy-alpine:"$hap
 
 docker run -it -d --rm -p 8010:80 -p 4430:443 --name myhaproxy technoboggle/haproxy-alpine:"$haproxy_ver-$alpine_ver"
 
-docker tag technoboggle/haproxy-alpine:"$haproxy_ver-$alpine_ver" technoboggle/haproxy-alpine:latest
+#docker tag technoboggle/haproxy-alpine:"$haproxy_ver-$alpine_ver" technoboggle/haproxy-alpine:latest
 docker login
 docker push technoboggle/haproxy-alpine:"$haproxy_ver-$alpine_ver"
-docker push technoboggle/haproxy-alpine:latest
-#docker container stop -t 10 myjenkins
+#docker push technoboggle/haproxy-alpine:latest
+docker container stop -t 10 myhaproxy
 
 cd "$owd"

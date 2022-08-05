@@ -160,3 +160,8 @@ $ docker run -d --name my-running-haproxy --expose 5555 -v /path/to/etc/haproxy:
 View [license information](https://raw.githubusercontent.com/haproxy/haproxy/master/LICENSE) for the software contained in this image.
 
 As with all Docker images, these likely also contain other software which may be under other licenses (such as Bash, etc from the base distribution, along with any direct or indirect dependencies of the primary software being contained).
+
+
+
+
+deprecated the use of the :latest tag as it seeds confusion
