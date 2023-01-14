@@ -3,8 +3,8 @@
 owd="`pwd`"
 cd "$(dirname "$0")"
 
-haproxy_ver="2.7"
-alpine_ver="3.16.1"
+haproxy_ver="2.8"
+alpine_ver="3.17.1"
 
 # Setting File permissions
 xattr -c .git
@@ -20,10 +20,10 @@ docker build -f Dockerfile -t technoboggle/haproxy-alpine:"$haproxy_ver-$alpine_
 
 docker run -it -d --rm -p 8010:80 -p 4430:443 --name myhaproxy technoboggle/haproxy-alpine:"$haproxy_ver-$alpine_ver"
 
-#docker tag technoboggle/haproxy-alpine:"$haproxy_ver-$alpine_ver" technoboggle/haproxy-alpine:latest
+docker tag technoboggle/haproxy-alpine:"$haproxy_ver-$alpine_ver" technoboggle/haproxy-alpine:latest
 docker login
 docker push technoboggle/haproxy-alpine:"$haproxy_ver-$alpine_ver"
-#docker push technoboggle/haproxy-alpine:latest
+docker push technoboggle/haproxy-alpine:latest
 docker container stop -t 10 myhaproxy
 
 cd "$owd"
