@@ -1,12 +1,12 @@
-FROM alpine:3.17.1
+FROM alpine:3.18.2
 LABEL net.technoboggle.authorname="Edward Finlayson" \
       net.technoboggle.authors="edward.finlayson@btinternet.com" \
       net.technoboggle.version="0.1" \
       net.technoboggle.description="This image builds a HAProxy server" \
-      net.technoboggle.alpine_version="3.17.1" \
+      net.technoboggle.alpine_version="3.18.2" \
       net.technoboggle.dataplane_version="2.6.0" \
-      net.technoboggle.haproxy_version="2.8-dev1" \
-      net.technoboggle.libslz_version="1.2.0" \
+      net.technoboggle.haproxy_version="2.8.1" \
+      net.technoboggle.libslz_version="1.2.1" \
       net.technoboggle.buildDate=$buildDate
 
 LABEL Name HAProxy
