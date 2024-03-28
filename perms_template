@@ -1,0 +1,3 @@
+DOCKER_USER=""
+DOCKER_PAT=""
+DOCKER_REPO="${DOCKER_USER}/redis-alpine"

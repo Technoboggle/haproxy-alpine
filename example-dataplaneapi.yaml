@@ -1,0 +1,124 @@
+config_version: 2
+name: famous_condor # string
+mode: "single" # string
+status: null # string
+dataplaneapi:
+  scheme: # []string
+  - http
+  cleanup_timeout: "10s" # time.Duration
+  graceful_timeout: "15s" # time.Duration
+  max_header_size: "1MiB" # flagext.ByteSize
+  socket_path: "/var/run/data-plane.sock" # flags.Filename
+  debug_socket_path: "/var/run/dataplane-debug.sock" #string
+  host: "localhost" # string
+  port: 80 # int
+  listen_limit: 1024 # int
+  keep_alive: "3m" # time.Duration
+  read_timeout: "30s" # time.Duration
+  write_timeout: "60s" # time.Duration
+  show_system_info: false # bool
+  disable_inotify: false # bool
+  pid_file: /tmp/dataplane.pid # string
+  uid: 1000 # int
+  gid: 1000 # int
+  tls:
+    tls_host: null # string 2
+    tls_port: 6443 # int 2
+    tls_certificate: null # flags.Filename 2
+    tls_key: null # flags.Filename 2
+    tls_ca: null # flags.Filename 2
+    tls_listen_limit: 10 # int 2
+    tls_keep_alive: 1m # time.Duration 2
+    tls_read_timeout: 10s # time.Duration 2
+    tls_write_timeout: 10s # time.Duration 2
+  user:
+  - name: admin # string 2
+    insecure: true # bool 2
+    password: adminpwd # string 2
+  userlist:
+    userlist: "controller" # string 2
+    userlist_file: null # string 2
+  transaction:
+    transaction_dir: "/tmp/haproxy" # string 2
+    backups_number: 0 # int 2
+    backups_dir: /tmp/backups # string 2
+    max_open_transactions: 20 # int64 2
+  resources:
+    maps_dir: "/etc/haproxy/maps" # string 2
+    ssl_certs_dir: "/etc/haproxy/ssl" # string 2
+    update_map_files: false # bool 2
+    update_map_files_period: 10 # int64 2
+    spoe_dir: "/etc/haproxy/spoe" # string 2
+    spoe_transaction_dir: "/tmp/spoe-haproxy" # string 2
+  advertised:
+    api_address: 10.2.3.4 # string 2
+    api_port: 80 # int64 2
+haproxy:
+  config_file: "/etc/haproxy/haproxy.cfg" # string
+  haproxy_bin: "haproxy" # string
+  master_runtime: null # string
+  fid: null # string
+  master_worker_mode: false # bool
+  reload:
+    reload_delay: 5 # int 2
+    reload_cmd: "systemctl reload haproxy"
+    restart_cmd: "systemctl restart haproxy"
+    status_cmd: "systemctl status haproxy"
+    service_name: "haproxy.service"
+    reload_retention: 1 # int 2
+    reload_strategy: custom
+    validate_cmd: null # string 2
+cluster:
+  cluster_tls_dir: null # string
+  id: null # string
+  bootstrap_key: null # string
+  active_bootstrap_key: null # string
+  token: null # string
+  url: null # string
+  port: 80 # int
+  api_base_path: null # string
+  api_nodes_path: null # string
+  api_register_path: null # string
+  storage_dir: null # string
+  cert_path: null # string
+  cert_fetched: false # bool
+  name: null # string
+  description: null # string
+service_discovery:
+  consuls: [] # []*models.Consul
+  aws_regions: [] # []*models.AwsRegion
+log_targets:
+- log_to: stdout
+  log_level: debug
+  log_format: json
+  log_types:
+  - access
+  - app
+- log_to: file
+  log_file: /var/log/dataplanepi.log
+  log_level: info
+  log_format: text
+  log_types:
+  - app
+- log_to: syslog
+  log_level: info
+  syslog_address: 127.0.0.1
+  syslog_protocol: tcp
+  syslog_tag: dataplaneapi
+  syslog_level: debug
+  syslog_facility: local0
+  log_types:
+  - access
+# Deprecated: use log_targets instead
+log:
+  log_to: "stdout" # string
+  log_file: "/var/log/dataplaneapi/dataplaneapi.log" # string
+  log_level: "warning" # string
+  log_format: "text" # string
+  apache_common_log_format: "%h" # string
+  syslog:
+    syslog_address: null # string 2
+    syslog_protocol: "tcp" # string 2
+    syslog_tag: "dataplaneapi" # string 2
+    syslog_level: "debug" # string 2
+    syslog_facility: "local0" # string 2
