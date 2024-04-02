@@ -32,6 +32,7 @@ target "app" {
         DESCRIPTION = "${DESCRIPTION}"
         URL = "${URL}"
         VCS_URL = "${VCS_URL}"
+        BUILD_LOCALLY = "${BUILD_LOCALLY}"
         VENDOR = "${VENDOR}"
         BUILDVERSION = "${BUILD_VERSION}"
         BUILD_DATE="${BUILD_DATE}"

@@ -58,12 +58,6 @@ else
 fi
 
 
-#docker buildx create --name technoboggle_builder --use --bootstrap
-#docker buildx bake -f env.hcl -f docker-bake.hcl --builder technoboggle_builder --no-cache --push
-
-# The following would be for a remote builder
-#docker buildx create --driver cloud technoboggle/production
-#docker buildx bake -f docker-bake.hcl -f env.hcl --builder cloud-technoboggle-production --no-cache --push
 sed -i.bu -E 's/BUILD_DATE=".*"/BUILD_DATE=""/g' env.hcl
 sed -i.bu -E 's/VCS_REF=".*"/VCS_REF=""/g' env.hcl
 sed -i.bu -E 's/DOCKERCMD=".*"/DOCKERCMD=""/g' env.hcl
