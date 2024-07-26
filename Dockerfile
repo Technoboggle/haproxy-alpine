@@ -1,7 +1,5 @@
 ARG ALPINE_VERSION
 ARG HAPROXY_VERSION
-ARG ALPINE_VERSION
-ARG HAPROXY_VERSION
 ARG HAPROXY_BRANCH
 ARG HAPROXY_MINOR
 ARG HAPROXY_SHA256
@@ -31,8 +29,6 @@ ARG DOCKERCMD
 
 FROM alpine:${ALPINE_VERSION} AS haproxy
 
-ARG ALPINE_VERSION
-ARG HAPROXY_VERSION
 ARG ALPINE_VERSION
 ARG HAPROXY_VERSION
 ARG HAPROXY_BRANCH
@@ -83,6 +79,10 @@ LABEL maintainer=${MAINTAINER_NAME} \
       org.label-schema.docker.cmd.help="" \
       org.label-schema.docker.params=""
 
+#    sha256sum my_file.exe.
+#    shasum -a 256 file
+
+
 RUN apk update --no-cache && apk upgrade --no-cache && \
     apk add --no-cache --virtual .build-deps ca-certificates gcc libc-dev \
     linux-headers lua5.3-dev make openssl openssl-dev pcre2-dev tar \
@@ -93,7 +93,7 @@ RUN apk update --no-cache && apk upgrade --no-cache && \
     tar -xzf libslz.tar.gz -C /tmp/libslz --strip-components=1 && \
     make -C /tmp/libslz static && \
     rm -f libslz.tar.gz && \
-    curl -sfSL "${HAPROXY_SRC_URL}/${HAPROXY_BRANCH}/src/devel/haproxy-${HAPROXY_MINOR}.tar.gz" -o haproxy.tar.gz && \
+    curl -sfSL "${HAPROXY_SRC_URL}/${HAPROXY_BRANCH}/src/haproxy-${HAPROXY_VERSION}.tar.gz" -o haproxy.tar.gz && \
     echo "$HAPROXY_SHA256 *haproxy.tar.gz" | sha256sum -c - && \
     groupadd "$HAPROXY_GID" && \
     useradd -g "$HAPROXY_GID" "$HAPROXY_UID" && \
